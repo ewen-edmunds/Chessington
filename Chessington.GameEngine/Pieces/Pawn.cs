@@ -29,7 +29,7 @@ namespace Chessington.GameEngine.Pieces
                 }
             }
             
-            return availableMoves.Where(IsWithinBounds).Where(square => board.GetPiece(square) == null);
+            return availableMoves.Where(board.IsWithinBounds).Where(square => board.GetPiece(square) == null);
         }
     }
 }

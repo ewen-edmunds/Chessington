@@ -4,8 +4,14 @@ using System.Linq;
 
 namespace Chessington.GameEngine.Pieces
 {
+    
     public class Rook : Piece
     {
+        protected static List<MoveOffset> MoveOffsets = new List<MoveOffset>()
+        {
+            new MoveOffset(-1,0), new MoveOffset(0,-1), 
+            new MoveOffset(0,1), new MoveOffset(1,0)
+        };
         public Rook(Player player)
             : base(player) { }
 
@@ -14,12 +20,12 @@ namespace Chessington.GameEngine.Pieces
             Square mySquare = board.FindPiece(this);
             List<Square> availableMoves = new List<Square>();
             
-            foreach (MoveOffset moveOffset in MoveOffset.GetAllLateralOffsets())
+            foreach (MoveOffset moveOffset in MoveOffsets)
             {
-                availableMoves.Add(mySquare+moveOffset);
+                availableMoves.AddRange(board.GetValidMovesInDirection(mySquare, moveOffset));
             }
-            
-            return availableMoves.Where(IsWithinBounds);
+
+            return availableMoves.Where(board.IsWithinBounds);
         }
     }
 }

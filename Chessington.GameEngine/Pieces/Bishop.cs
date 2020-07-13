@@ -6,6 +6,11 @@ namespace Chessington.GameEngine.Pieces
 {
     public class Bishop : Piece
     {
+        protected static List<MoveOffset> MoveOffsets = new List<MoveOffset>()
+        {
+            new MoveOffset(-1,-1), new MoveOffset(-1,1),
+            new MoveOffset(1,-1), new MoveOffset(1,1)
+        };
         public Bishop(Player player)
             : base(player) { }
 
@@ -14,12 +19,12 @@ namespace Chessington.GameEngine.Pieces
             Square mySquare = board.FindPiece(this);
             List<Square> availableMoves = new List<Square>();
             
-            foreach (MoveOffset moveOffset in MoveOffset.GetAllDiagonalOffsets())
+            foreach (MoveOffset moveOffset in MoveOffsets)
             {
-                availableMoves.Add(mySquare+moveOffset);
+                availableMoves.AddRange(board.GetValidMovesInDirection(mySquare, moveOffset));
             }
 
-            return availableMoves.Where(IsWithinBounds);
+            return availableMoves.Where(board.IsWithinBounds);
         }
     }
 }

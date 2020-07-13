@@ -17,6 +17,11 @@ namespace Chessington.GameEngine.Pieces
         {
             return new Square(square.Row+offset.RowOffset, square.Col+offset.ColOffset);
         }
+
+        public static MoveOffset operator *(MoveOffset offset, int factor)
+        {
+            return new MoveOffset(offset.RowOffset*factor, offset.ColOffset*factor);
+        }
         
         public static IEnumerable<MoveOffset> GetAllDiagonalOffsets()
         {

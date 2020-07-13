@@ -24,7 +24,7 @@ namespace Chessington.GameEngine.Pieces
                 availableMoves.Add(mySquare+moveOffset);
             }
             
-            return availableMoves.Where(IsWithinBounds);
+            return availableMoves.Where(board.IsWithinBounds);
         }
     }
 }

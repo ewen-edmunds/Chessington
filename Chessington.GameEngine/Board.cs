@@ -84,5 +84,31 @@ namespace Chessington.GameEngine
             var handler = CurrentPlayerChanged;
             if (handler != null) handler(player);
         }
+
+        public bool IsWithinBounds(Square square)
+        {
+            return square.Row >= 0 && square.Row < GameSettings.BoardSize &&
+                   square.Col >= 0 && square.Col < GameSettings.BoardSize;
+        }
+        
+        public IEnumerable<Square> GetValidMovesInDirection(Square startingSquare, MoveOffset direction)
+        {
+            List<Square> validMoves = new List<Square>();
+            int distance = 1;
+
+            while (IsWithinBounds(startingSquare + (direction * distance)) && GetPiece(startingSquare + (direction * distance)) == null)
+            {
+                validMoves.Add(startingSquare + (direction * distance));
+                distance += 1;
+            }
+
+            if (IsWithinBounds(startingSquare + (direction * distance)) &&
+                GetPiece(startingSquare + (direction * distance)).Player != (GetPiece(startingSquare).Player))
+            {
+                validMoves.Add(startingSquare + (direction * distance));
+            }
+
+            return validMoves;
+        }
     }
 }
