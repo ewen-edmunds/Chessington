@@ -90,6 +90,16 @@ namespace Chessington.GameEngine
             return square.Row >= 0 && square.Row < GameSettings.BoardSize &&
                    square.Col >= 0 && square.Col < GameSettings.BoardSize;
         }
+
+        public bool IsSameOnSquares(Square square1, Square square2)
+        {
+            if (GetPiece(square1) == null || GetPiece(square2) == null)
+            {
+                return false;
+            }
+            
+            return GetPiece(square1).Player == GetPiece(square2).Player;
+        }
         
         public IEnumerable<Square> GetValidMovesInDirection(Square startingSquare, MoveOffset direction)
         {
@@ -103,7 +113,7 @@ namespace Chessington.GameEngine
             }
 
             if (IsWithinBounds(startingSquare + (direction * distance)) &&
-                GetPiece(startingSquare + (direction * distance)).Player != (GetPiece(startingSquare).Player))
+                !IsSameOnSquares(startingSquare + (direction * distance), startingSquare))
             {
                 validMoves.Add(startingSquare + (direction * distance));
             }
