@@ -6,6 +6,7 @@ namespace Chessington.GameEngine.Pieces
 {
     public abstract class Piece
     {
+        protected bool HasEverMoved = false;
         protected Piece(Player player)
         {
             Player = player;
@@ -19,6 +20,7 @@ namespace Chessington.GameEngine.Pieces
         {
             var currentSquare = board.FindPiece(this);
             board.MovePiece(currentSquare, newSquare);
+            HasEverMoved = true;
         }
     }
 }
