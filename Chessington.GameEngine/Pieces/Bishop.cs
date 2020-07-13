@@ -31,9 +31,6 @@ namespace Chessington.GameEngine.Pieces
                     
                 }
             }
-
-            Console.WriteLine($"Available moves: {availableMoves.Count}");
-            
             return availableMoves;
         }
     }
