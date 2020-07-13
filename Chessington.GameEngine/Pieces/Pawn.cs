@@ -23,25 +23,25 @@ namespace Chessington.GameEngine.Pieces
             
             if (!HasEverMoved)
             {
-                if (board.IsWithinBounds(mySquare + new MoveOffset(moveDirection, 0)) && board.GetPiece(mySquare + new MoveOffset(moveDirection, 0)) == null)
+                if (BoardQuery.IsWithinBounds(mySquare + new MoveOffset(moveDirection, 0)) && board.GetPiece(mySquare + new MoveOffset(moveDirection, 0)) == null)
                 {
                     availableMoves.Add(mySquare + new MoveOffset(moveDirection*2,0));
                 }
             }
 
-            availableMoves = availableMoves.Where(board.IsWithinBounds).Where(square => board.GetPiece(square) == null).ToList();
+            availableMoves = availableMoves.Where(BoardQuery.IsWithinBounds).Where(square => board.GetPiece(square) == null).ToList();
 
             for (int colOffset =-1; colOffset < 2; colOffset+=2)
             {
                 Square captureSquare = mySquare + new MoveOffset(moveDirection, colOffset);
-                if (board.IsWithinBounds(captureSquare) &&
-                    board.IsOppositeColourOnSquares(mySquare, captureSquare))
+                if (BoardQuery.IsWithinBounds(captureSquare) &&
+                    BoardQuery.IsOppositeColourOnSquares(board, mySquare, captureSquare))
                 {
                     availableMoves.Add(captureSquare);
                 }
             }
             
-            return availableMoves.Where(board.IsWithinBounds);
+            return availableMoves.Where(BoardQuery.IsWithinBounds);
         }
     }
 }

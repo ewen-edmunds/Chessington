@@ -17,10 +17,10 @@ namespace Chessington.GameEngine.Pieces
             
             foreach (MoveOffset moveOffset in MoveOffsets)
             {
-                availableMoves.AddRange(board.GetValidMovesInDirection(mySquare, moveOffset));
+                availableMoves.AddRange(BoardQuery.GetValidMovesInDirection(board, mySquare, moveOffset));
             }
 
-            return availableMoves.Where(board.IsWithinBounds);
+            return availableMoves.Where(BoardQuery.IsWithinBounds);
         }
     }
 }

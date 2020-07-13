@@ -84,49 +84,5 @@ namespace Chessington.GameEngine
             var handler = CurrentPlayerChanged;
             if (handler != null) handler(player);
         }
-
-        public bool IsWithinBounds(Square square)
-        {
-            return square.Row >= 0 && square.Row < GameSettings.BoardSize &&
-                   square.Col >= 0 && square.Col < GameSettings.BoardSize;
-        }
-
-        public bool IsSameColourOnSquares(Square square1, Square square2)
-        {
-            if (GetPiece(square1) == null || GetPiece(square2) == null)
-            {
-                return false;
-            }
-            return GetPiece(square1).Player == GetPiece(square2).Player;
-        }
-        
-        public bool IsOppositeColourOnSquares(Square square1, Square square2)
-        {
-            if (GetPiece(square1) == null || GetPiece(square2) == null)
-            {
-                return false;
-            }
-            return GetPiece(square1).Player != GetPiece(square2).Player;
-        }
-        
-        public IEnumerable<Square> GetValidMovesInDirection(Square startingSquare, MoveOffset direction)
-        {
-            List<Square> validMoves = new List<Square>();
-            int distance = 1;
-
-            while (IsWithinBounds(startingSquare + (direction * distance)) && GetPiece(startingSquare + (direction * distance)) == null)
-            {
-                validMoves.Add(startingSquare + (direction * distance));
-                distance += 1;
-            }
-
-            if (IsWithinBounds(startingSquare + (direction * distance)) &&
-                !IsSameColourOnSquares(startingSquare + (direction * distance), startingSquare))
-            {
-                validMoves.Add(startingSquare + (direction * distance));
-            }
-
-            return validMoves;
-        }
     }
 }

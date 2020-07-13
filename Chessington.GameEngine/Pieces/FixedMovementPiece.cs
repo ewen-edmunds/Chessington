@@ -20,7 +20,7 @@ namespace Chessington.GameEngine.Pieces
                 availableMoves.Add(mySquare+moveOffset);
             }
             
-            return availableMoves.Where(board.IsWithinBounds).Where(square => !board.IsSameColourOnSquares(mySquare, square));
+            return availableMoves.Where(BoardQuery.IsWithinBounds).Where(square => !BoardQuery.IsSameColourOnSquares(board, mySquare, square));
         }
     }
 }
