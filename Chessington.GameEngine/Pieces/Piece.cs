@@ -29,9 +29,9 @@ namespace Chessington.GameEngine.Pieces
                    square.Col >= 0 && square.Col < GameSettings.BoardSize;
         }
 
-        public IEnumerable<Square> GetAllDiagonalsInBounds(Square square)
+        public static IEnumerable<MoveOffset> GetAllDiagonalOffsets()
         {
-            HashSet<Square> diagonalSquares = new HashSet<Square>();
+            HashSet<MoveOffset> diagonalOffsets = new HashSet<MoveOffset>();
 
             for (int rowOffset = -1; rowOffset < 2; rowOffset+=2)
             {
@@ -39,29 +39,31 @@ namespace Chessington.GameEngine.Pieces
                 {
                     for (int distance = 1; distance < GameSettings.BoardSize; distance++)
                     {
-                        int newRow = square.Row + (rowOffset * distance);
-                        int newCol = square.Col + (colOffset * distance);
-                        
-                        diagonalSquares.Add(new Square(newRow, newCol));
+                        diagonalOffsets.Add(new MoveOffset(rowOffset * distance, colOffset * distance));
                     }
                 }
             }
-
-            return diagonalSquares.Where(IsWithinBounds).Where(diagSquare => diagSquare!=square);
+            
+            return diagonalOffsets;
         }
 
-        public IEnumerable<Square> GetAllLateralsInBounds(Square square)
+        public static IEnumerable<MoveOffset> GetAllLateralOffsets()
         {
-            HashSet<Square> allLaterals = new HashSet<Square>();
+            HashSet<MoveOffset> lateralOffsets = new HashSet<MoveOffset>();
 
-            for (int distance = -GameSettings.BoardSize; distance < GameSettings.BoardSize; distance++)
+            for (int distance = 1; distance < GameSettings.BoardSize; distance++)
             {
-                allLaterals.Add(new Square(square.Row+distance, square.Col));
-                
-                allLaterals.Add(new Square(square.Row, square.Col+distance));
+                for (int rowDirection = -1; rowDirection < 2; rowDirection += 2)
+                {
+                    lateralOffsets.Add(new MoveOffset(rowDirection * distance, 0));
+                }
+                for (int colDirection = -1; colDirection < 2; colDirection += 2)
+                {
+                    lateralOffsets.Add(new MoveOffset(0, colDirection * distance));
+                }
             }
 
-            return allLaterals.Where(IsWithinBounds).Where(latSquare => latSquare!=square);
+            return lateralOffsets;
         }
     }
 }

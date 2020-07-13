@@ -12,8 +12,14 @@ namespace Chessington.GameEngine.Pieces
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
             Square mySquare = board.FindPiece(this);
+            List<Square> availableMoves = new List<Square>();
             
-            return GetAllDiagonalsInBounds(mySquare);
+            foreach (MoveOffset moveOffset in GetAllDiagonalOffsets())
+            {
+                availableMoves.Add(mySquare+moveOffset);
+            }
+
+            return availableMoves.Where(IsWithinBounds);
         }
     }
 }
