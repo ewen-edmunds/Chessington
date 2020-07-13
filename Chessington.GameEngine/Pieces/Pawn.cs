@@ -19,11 +19,11 @@ namespace Chessington.GameEngine.Pieces
                 moveDirection = -1;
             }
 
-            availableMoves.Add(new Square(mySquare.Row+moveDirection, mySquare.Col));
+            availableMoves.Add(mySquare + new MoveOffset(moveDirection,0));
             
             if (!HasEverMoved)
             {
-                availableMoves.Add(new Square(mySquare.Row+(2*moveDirection), mySquare.Col));
+                availableMoves.Add(mySquare + new MoveOffset(moveDirection*2,0));
             }
             
             return availableMoves.Where(IsWithinBounds);
