@@ -28,8 +28,20 @@ namespace Chessington.GameEngine.Pieces
                     availableMoves.Add(mySquare + new MoveOffset(moveDirection*2,0));
                 }
             }
+
+            availableMoves = availableMoves.Where(board.IsWithinBounds).Where(square => board.GetPiece(square) == null).ToList();
+
+            for (int colOffset =-1; colOffset < 2; colOffset+=2)
+            {
+                Square captureSquare = mySquare + new MoveOffset(moveDirection, colOffset);
+                if (board.IsWithinBounds(captureSquare) &&
+                    board.IsOppositeColourOnSquares(mySquare, captureSquare))
+                {
+                    availableMoves.Add(captureSquare);
+                }
+            }
             
-            return availableMoves.Where(board.IsWithinBounds).Where(square => board.GetPiece(square) == null);
+            return availableMoves.Where(board.IsWithinBounds);
         }
     }
 }

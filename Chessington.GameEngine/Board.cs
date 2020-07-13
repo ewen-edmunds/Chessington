@@ -91,14 +91,22 @@ namespace Chessington.GameEngine
                    square.Col >= 0 && square.Col < GameSettings.BoardSize;
         }
 
-        public bool IsSameOnSquares(Square square1, Square square2)
+        public bool IsSameColourOnSquares(Square square1, Square square2)
         {
             if (GetPiece(square1) == null || GetPiece(square2) == null)
             {
                 return false;
             }
-            
             return GetPiece(square1).Player == GetPiece(square2).Player;
+        }
+        
+        public bool IsOppositeColourOnSquares(Square square1, Square square2)
+        {
+            if (GetPiece(square1) == null || GetPiece(square2) == null)
+            {
+                return false;
+            }
+            return GetPiece(square1).Player != GetPiece(square2).Player;
         }
         
         public IEnumerable<Square> GetValidMovesInDirection(Square startingSquare, MoveOffset direction)
@@ -113,7 +121,7 @@ namespace Chessington.GameEngine
             }
 
             if (IsWithinBounds(startingSquare + (direction * distance)) &&
-                !IsSameOnSquares(startingSquare + (direction * distance), startingSquare))
+                !IsSameColourOnSquares(startingSquare + (direction * distance), startingSquare))
             {
                 validMoves.Add(startingSquare + (direction * distance));
             }
