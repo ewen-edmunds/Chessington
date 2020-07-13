@@ -23,10 +23,13 @@ namespace Chessington.GameEngine.Pieces
             
             if (!HasEverMoved)
             {
-                availableMoves.Add(mySquare + new MoveOffset(moveDirection*2,0));
+                if (board.GetPiece(mySquare + new MoveOffset(moveDirection, 0)) == null)
+                {
+                    availableMoves.Add(mySquare + new MoveOffset(moveDirection*2,0));
+                }
             }
             
-            return availableMoves.Where(IsWithinBounds);
+            return availableMoves.Where(IsWithinBounds).Where(square => board.GetPiece(square) == null);
         }
     }
 }
