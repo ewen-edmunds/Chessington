@@ -18,25 +18,15 @@ namespace Chessington.GameEngine.Pieces
             {
                 moveDirection = -1;
             }
-            
-            int attemptedRowToMoveTo = mySquare.Row+moveDirection;
-            
-            if (attemptedRowToMoveTo >= 0 && attemptedRowToMoveTo < GameSettings.BoardSize)
-            {
-                availableMoves.Add(new Square(attemptedRowToMoveTo, mySquare.Col));
-            }
 
+            availableMoves.Add(new Square(mySquare.Row+moveDirection, mySquare.Col));
+            
             if (!HasEverMoved)
             {
-                attemptedRowToMoveTo = mySquare.Row+(2*moveDirection);
-            
-                if (attemptedRowToMoveTo >= 0 && attemptedRowToMoveTo < GameSettings.BoardSize)
-                {
-                    availableMoves.Add(new Square(attemptedRowToMoveTo, mySquare.Col));
-                }
+                availableMoves.Add(new Square(mySquare.Row+(2*moveDirection), mySquare.Col));
             }
             
-            return availableMoves;
+            return availableMoves.Where(IsWithinBounds);
         }
     }
 }

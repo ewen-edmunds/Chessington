@@ -22,5 +22,11 @@ namespace Chessington.GameEngine.Pieces
             board.MovePiece(currentSquare, newSquare);
             HasEverMoved = true;
         }
+
+        public bool IsWithinBounds(Square square)
+        {
+            return square.Row >= 0 && square.Row < GameSettings.BoardSize &&
+                   square.Col >= 0 && square.Col < GameSettings.BoardSize;
+        }
     }
 }

@@ -14,18 +14,13 @@ namespace Chessington.GameEngine.Pieces
             Square mySquare = board.FindPiece(this);
             List<Square> availableMoves = new List<Square>();
 
-            for (int i = -GameSettings.BoardSize; i < GameSettings.BoardSize; i++)
+            for (int distance = -GameSettings.BoardSize; distance < GameSettings.BoardSize; distance++)
             {
-                if (mySquare.Row + i >= 0 && mySquare.Row + i < GameSettings.BoardSize)
-                {
-                    availableMoves.Add(new Square(mySquare.Row+i, mySquare.Col));
-                }
-                if (mySquare.Col + i >= 0 && mySquare.Col + i < GameSettings.BoardSize)
-                {
-                    availableMoves.Add(new Square(mySquare.Row, mySquare.Col+i));
-                }
+                availableMoves.Add(new Square(mySquare.Row+distance, mySquare.Col));
+                
+                availableMoves.Add(new Square(mySquare.Row, mySquare.Col+distance));
             }
-            return availableMoves;
+            return availableMoves.Where(IsWithinBounds);
         }
     }
 }

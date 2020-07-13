@@ -23,15 +23,11 @@ namespace Chessington.GameEngine.Pieces
                         int newRow = mySquare.Row + (rowOffset * distance);
                         int newCol = mySquare.Col + (colOffset * distance);
                         
-                        if (newRow >= 0 && newRow < GameSettings.BoardSize && newCol >= 0 && newCol < GameSettings.BoardSize)
-                        {
-                            availableMoves.Add(new Square(newRow, newCol));
-                        }
+                        availableMoves.Add(new Square(newRow, newCol));
                     }
-                    
                 }
             }
-            return availableMoves;
+            return availableMoves.Where(IsWithinBounds);
         }
     }
 }
