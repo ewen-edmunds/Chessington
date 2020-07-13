@@ -34,10 +34,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MoveOffset.cs" />
     <Compile Include="Pieces\Bishop.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="GameSettings.cs" />
-    <Compile Include="Pieces\MoveOffset.cs" />
     <Compile Include="Pieces\Piece.cs" />
     <Compile Include="Pieces\King.cs" />
     <Compile Include="Pieces\Knight.cs" />

@@ -13,11 +13,11 @@ namespace Chessington.GameEngine.Pieces
             Square mySquare = board.FindPiece(this);
             List<Square> availableMoves = new List<Square>();
             
-            foreach (MoveOffset moveOffset in GetAllDiagonalOffsets())
+            foreach (MoveOffset moveOffset in MoveOffset.GetAllDiagonalOffsets())
             {
                 availableMoves.Add(mySquare+moveOffset);
             }
-            foreach (MoveOffset moveOffset in GetAllLateralOffsets())
+            foreach (MoveOffset moveOffset in MoveOffset.GetAllLateralOffsets())
             {
                 availableMoves.Add(mySquare+moveOffset);
             }
