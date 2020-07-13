@@ -6,12 +6,12 @@ namespace Chessington.GameEngine.Pieces
 {
     public class Knight : Piece
     {
-        protected List<Tuple<int,int>> MoveOffsets = new List<Tuple<int,int>>()
+        protected static List<MoveOffset> MoveOffsets = new List<MoveOffset>()
         {
-            new Tuple<int, int>(-1,-2), new Tuple<int, int>(-1,2),
-            new Tuple<int, int>(1,-2), new Tuple<int, int>(1,2),
-            new Tuple<int, int>(-2,-1), new Tuple<int, int>(-2,1),
-            new Tuple<int, int>(2,-1), new Tuple<int, int>(2,1)
+            new MoveOffset(-1,-2), new MoveOffset(-1,2),
+            new MoveOffset(1,-2), new MoveOffset(1,2),
+            new MoveOffset(-2,-1), new MoveOffset(-2,1),
+            new MoveOffset(2,-1), new MoveOffset(2,1)
         };
         public Knight(Player player)
             : base(player) { }
@@ -21,9 +21,9 @@ namespace Chessington.GameEngine.Pieces
             Square mySquare = board.FindPiece(this);
             List<Square> availableMoves = new List<Square>();
             
-            foreach (Tuple<int,int> moveOffset in MoveOffsets)
+            foreach (MoveOffset moveOffset in MoveOffsets)
             {
-                availableMoves.Add(new Square(mySquare.Row+moveOffset.Item1, mySquare.Col+moveOffset.Item2));
+                availableMoves.Add(mySquare+moveOffset);
             }
             
             return availableMoves.Where(IsWithinBounds);
