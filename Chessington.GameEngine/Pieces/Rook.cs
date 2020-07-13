@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Chessington.GameEngine.Pieces
@@ -24,7 +25,6 @@ namespace Chessington.GameEngine.Pieces
                     availableMoves.Add(new Square(mySquare.Row, mySquare.Col+i));
                 }
             }
-
             return availableMoves;
         }
     }
