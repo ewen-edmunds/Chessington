@@ -17,7 +17,12 @@ namespace Chessington.GameEngine.Pieces
             int moveDirection = Player == Player.White ? -1 : 1;
 
             availableMoves.Add(mySquare + new MoveOffset(moveDirection,0));
-            availableMoves.AddRange(GetSquaresFirstMove(board, moveDirection));
+            
+            Square? FirstMoveSquare = GetFirstMoveSquare(board, moveDirection);
+            if (FirstMoveSquare != null)
+            {
+                availableMoves.Add((Square) FirstMoveSquare);
+            }
 
             availableMoves = availableMoves.Where(BoardQuery.IsWithinBounds).Where(square => board.GetPiece(square) == null).ToList();
 
@@ -27,18 +32,18 @@ namespace Chessington.GameEngine.Pieces
             return availableMoves.Where(BoardQuery.IsWithinBounds);
         }
         
-        private List<Square> GetSquaresFirstMove(Board board, int moveDirection)
+        private Square? GetFirstMoveSquare(Board board, int moveDirection)
         {
             Square mySquare = board.FindPiece(this);
-            List<Square> availableMoves = new List<Square>();
+            Square? availableMove = null;
             
             if (!HasEverMoved && BoardQuery.IsWithinBounds(mySquare + new MoveOffset(moveDirection, 0)) 
                               && board.GetPiece(mySquare + new MoveOffset(moveDirection, 0)) == null)
             {
-                availableMoves.Add(mySquare + new MoveOffset(moveDirection*2,0));
+                availableMove= mySquare + new MoveOffset(moveDirection*2,0);
             }
 
-            return availableMoves;
+            return availableMove;
         }
         private List<Square> GetSquaresCanAttack(Board board, int moveDirection)
         {
