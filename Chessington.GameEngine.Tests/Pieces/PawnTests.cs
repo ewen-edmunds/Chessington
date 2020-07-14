@@ -201,5 +201,75 @@ namespace Chessington.GameEngine.Tests.Pieces
             moves.Should().NotContain(Square.At(6, 2));
             moves.Should().NotContain(Square.At(6, 4));
         }
+        
+        [Test]
+        public void WhitePawns_CanDoEnPassant()
+        {
+            var board = new Board();
+            var pawn = new Pawn(Player.White);
+            board.AddPiece(Square.At(4, 2), pawn);
+
+            var opposingPiece = new Pawn(Player.Black);
+            board.AddPiece(Square.At(1, 1), opposingPiece);
+
+            pawn.MoveTo(board, Square.At(3,2));
+            opposingPiece.MoveTo(board, Square.At(3,1));
+            
+            var moves = pawn.GetAvailableMoves(board).ToList();
+
+            moves.Should().Contain(Square.At(2, 1));
+        }
+        
+        [Test]
+        public void BlackPawns_CanDoEnPassant()
+        {
+            var board = new Board();
+            var pawn = new Pawn(Player.Black);
+            board.AddPiece(Square.At(4, 2), pawn);
+
+            var opposingPiece = new Pawn(Player.White);
+            board.AddPiece(Square.At(6, 1), opposingPiece);
+
+            opposingPiece.MoveTo(board, Square.At(4,1));
+            
+            var moves = pawn.GetAvailableMoves(board).ToList();
+
+            moves.Should().Contain(Square.At(5, 1));
+        }
+        
+        [Test]
+        public void WhitePawn_DoingEnPassant_ShouldRemoveBlackPawn()
+        {
+            var board = new Board();
+            var pawn = new Pawn(Player.White);
+            board.AddPiece(Square.At(4, 2), pawn);
+
+            var opposingPiece = new Pawn(Player.Black);
+            board.AddPiece(Square.At(1, 1), opposingPiece);
+
+            pawn.MoveTo(board, Square.At(3,2));
+            opposingPiece.MoveTo(board, Square.At(3,1));
+            
+            pawn.MoveTo(board, Square.At(2,1));
+
+            board.CapturedPieces.Should().Contain(opposingPiece);
+        }
+        
+        [Test]
+        public void BlackPawn_DoingEnPassant_ShouldRemoveWhitePawn()
+        {
+            var board = new Board();
+            var pawn = new Pawn(Player.Black);
+            board.AddPiece(Square.At(4, 2), pawn);
+
+            var opposingPiece = new Pawn(Player.White);
+            board.AddPiece(Square.At(6, 1), opposingPiece);
+
+            opposingPiece.MoveTo(board, Square.At(4,1));
+            
+            pawn.MoveTo(board, Square.At(5,1));
+            
+            board.CapturedPieces.Should().Contain(opposingPiece);
+        }
     }
 }
