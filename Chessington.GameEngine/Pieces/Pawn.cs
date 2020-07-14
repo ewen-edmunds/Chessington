@@ -73,7 +73,8 @@ namespace Chessington.GameEngine.Pieces
                 if (BoardQuery.IsWithinBounds(sidewaysSquare) &&
                     BoardQuery.IsOppositeColourOnSquares(board, mySquare, sidewaysSquare))
                 {
-                    if (board.previousBoard.GetPiece(sidewaysSquare + new MoveOffset(moveDirection * 2, 0)) == board.GetPiece(sidewaysSquare))
+                    Square previousSquare = sidewaysSquare + new MoveOffset(moveDirection * 2, 0);
+                    if (board.PreviousBoard[previousSquare.Row, previousSquare.Col] == board.GetPiece(sidewaysSquare))
                     {
                         availableMoves.Add(sidewaysSquare + new MoveOffset(moveDirection,0));
                     }

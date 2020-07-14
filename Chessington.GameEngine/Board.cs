@@ -8,7 +8,7 @@ namespace Chessington.GameEngine
     public class Board
     {
         private readonly Piece[,] board;
-        public Board previousBoard = null;
+        public Piece[,] PreviousBoard = null;
         public Player CurrentPlayer { get; private set; }
         public IList<Piece> CapturedPieces { get; private set; } 
 
@@ -66,7 +66,7 @@ namespace Chessington.GameEngine
                 }
             }
 
-            previousBoard = new Board(CurrentPlayer, (Piece[,])board.Clone());
+            PreviousBoard = (Piece[,]) board.Clone();
             
             //Move the piece and set the 'from' square to be empty.
             board[to.Row, to.Col] = board[from.Row, from.Col];
