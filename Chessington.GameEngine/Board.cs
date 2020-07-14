@@ -57,12 +57,10 @@ namespace Chessington.GameEngine
             {
                 OnPieceCaptured(board[to.Row, to.Col]);
             }
-            //todo: en passant capture
             if (movingPiece.GetType() == typeof(Pawn))
             {
                 if (to.Col != from.Col && GetPiece(to) == null)
                 {
-                    //we know this must be a capturino
                     OnPieceCaptured(board[from.Row, to.Col]);
                     board[from.Row, to.Col] = null;
                 }

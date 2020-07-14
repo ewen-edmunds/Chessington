@@ -17,10 +17,30 @@ namespace Chessington.GameEngine.Pieces
             
             foreach (MoveOffset moveOffset in MoveOffsets)
             {
-                availableMoves.AddRange(BoardQuery.GetValidMovesInDirection(board, mySquare, moveOffset));
+                availableMoves.AddRange(GetValidMovesInDirection(board, mySquare, moveOffset));
             }
 
             return availableMoves.Where(BoardQuery.IsWithinBounds);
+        }
+        
+        public static IEnumerable<Square> GetValidMovesInDirection(Board board, Square startingSquare, MoveOffset direction)
+        {
+            List<Square> validMoves = new List<Square>();
+            int distance = 1;
+
+            while (BoardQuery.IsWithinBounds(startingSquare + (direction * distance)) && board.GetPiece(startingSquare + (direction * distance)) == null)
+            {
+                validMoves.Add(startingSquare + (direction * distance));
+                distance += 1;
+            }
+
+            if (BoardQuery.IsWithinBounds(startingSquare + (direction * distance)) &&
+                !BoardQuery.IsSameColourOnSquares(board, startingSquare + (direction * distance), startingSquare))
+            {
+                validMoves.Add(startingSquare + (direction * distance));
+            }
+
+            return validMoves;
         }
     }
 }
