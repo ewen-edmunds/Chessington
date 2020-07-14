@@ -8,6 +8,7 @@ namespace Chessington.GameEngine
     public class Board
     {
         private readonly Piece[,] board;
+        public Board previousBoard = null;
         public Player CurrentPlayer { get; private set; }
         public IList<Piece> CapturedPieces { get; private set; } 
 
@@ -57,10 +58,17 @@ namespace Chessington.GameEngine
                 OnPieceCaptured(board[to.Row, to.Col]);
             }
 
+            previousBoard = new Board(CurrentPlayer, (Piece[,])board.Clone());
+            
             //Move the piece and set the 'from' square to be empty.
             board[to.Row, to.Col] = board[from.Row, from.Col];
             board[from.Row, from.Col] = null;
 
+            if (previousBoard.board == board)
+            {
+                throw new Exception();
+            }
+            
             CurrentPlayer = movingPiece.Player == Player.White ? Player.Black : Player.White;
             OnCurrentPlayerChanged(CurrentPlayer);
         }
