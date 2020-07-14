@@ -216,7 +216,6 @@ namespace Chessington.GameEngine.Tests.Pieces
             opposingPiece.MoveTo(board, Square.At(3,1));
             
             var moves = pawn.GetAvailableMoves(board).ToList();
-
             moves.Should().Contain(Square.At(2, 1));
         }
         
@@ -233,7 +232,6 @@ namespace Chessington.GameEngine.Tests.Pieces
             opposingPiece.MoveTo(board, Square.At(4,1));
             
             var moves = pawn.GetAvailableMoves(board).ToList();
-
             moves.Should().Contain(Square.At(5, 1));
         }
         
@@ -252,7 +250,7 @@ namespace Chessington.GameEngine.Tests.Pieces
             
             pawn.MoveTo(board, Square.At(2,1));
 
-            board.CapturedPieces.Should().Contain(opposingPiece);
+            board.GetPiece(Square.At(5,1)).Should().Be(null);
         }
         
         [Test]
@@ -269,7 +267,59 @@ namespace Chessington.GameEngine.Tests.Pieces
             
             pawn.MoveTo(board, Square.At(5,1));
             
-            board.CapturedPieces.Should().Contain(opposingPiece);
+            board.GetPiece(Square.At(4,1)).Should().Be(null);
+        }
+        
+        [Test]
+        public void WhitePawn_DoingEnPassant_MustBeNextTurn()
+        {
+            var board = new Board();
+            var pawn = new Pawn(Player.White);
+            board.AddPiece(Square.At(4, 2), pawn);
+
+            var opposingPiece = new Pawn(Player.Black);
+            board.AddPiece(Square.At(1, 1), opposingPiece);
+            
+            var otherBlackPawn = new Pawn(Player.Black);
+            board.AddPiece(Square.At(0, 0), otherBlackPawn);
+            
+            var otherWhitePawn = new Pawn(Player.White);
+            board.AddPiece(Square.At(7, 0), otherWhitePawn);
+
+            pawn.MoveTo(board, Square.At(5,2));
+            
+            opposingPiece.MoveTo(board, Square.At(5,1));
+            
+            otherWhitePawn.MoveTo(board, Square.At(5,0));
+            otherBlackPawn.MoveTo(board, Square.At(1,0));
+            
+            var moves = pawn.GetAvailableMoves(board).ToList();
+            moves.Should().NotContain(Square.At(4, 1));
+        }
+        
+        [Test]
+        public void BlackPawn_DoingEnPassant_MustBeNextTurn()
+        {
+            var board = new Board();
+            var pawn = new Pawn(Player.Black);
+            board.AddPiece(Square.At(4, 2), pawn);
+
+            var opposingPiece = new Pawn(Player.White);
+            board.AddPiece(Square.At(6, 1), opposingPiece);
+            
+            var otherBlackPawn = new Pawn(Player.Black);
+            board.AddPiece(Square.At(0, 0), otherBlackPawn);
+            
+            var otherWhitePawn = new Pawn(Player.White);
+            board.AddPiece(Square.At(7, 0), otherWhitePawn);
+
+            opposingPiece.MoveTo(board, Square.At(4,1));
+            
+            otherBlackPawn.MoveTo(board, Square.At(1,0));
+            otherWhitePawn.MoveTo(board, Square.At(6,0));
+            
+            var moves = pawn.GetAvailableMoves(board).ToList();
+            moves.Should().NotContain(Square.At(5, 1));
         }
     }
 }

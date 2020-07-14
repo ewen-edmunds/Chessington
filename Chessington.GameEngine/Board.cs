@@ -57,6 +57,16 @@ namespace Chessington.GameEngine
             {
                 OnPieceCaptured(board[to.Row, to.Col]);
             }
+            //todo: en passant capture
+            if (movingPiece.GetType() == typeof(Pawn))
+            {
+                if (to.Col != from.Col && GetPiece(to) == null)
+                {
+                    //we know this must be a capturino
+                    OnPieceCaptured(board[from.Row, to.Col]);
+                    board[from.Row, to.Col] = null;
+                }
+            }
 
             previousBoard = new Board(CurrentPlayer, (Piece[,])board.Clone());
             
@@ -64,11 +74,6 @@ namespace Chessington.GameEngine
             board[to.Row, to.Col] = board[from.Row, from.Col];
             board[from.Row, from.Col] = null;
 
-            if (previousBoard.board == board)
-            {
-                throw new Exception();
-            }
-            
             CurrentPlayer = movingPiece.Player == Player.White ? Player.Black : Player.White;
             OnCurrentPlayerChanged(CurrentPlayer);
         }
